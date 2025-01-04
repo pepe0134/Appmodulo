@@ -154,16 +154,18 @@ function siguienteTurno(modulo) {
 let turnoGlobal = 1;  // Turno general para todos los módulos
 
 function siguienteTurno(modulo) {
-    turnos[modulo] = turnoGlobal;  // Asegura que el módulo reciba el turno global
-
+    turnos[modulo] = turnoGlobal;  // Sincroniza turno global con el módulo
     historialTurnos[modulo].push(turnoGlobal);  // Guarda en historial
-    actualizarTurno(modulo, turnoGlobal);
 
-    // Mostrar el número de turno llamado
+    // Forzar actualización visual
+    document.getElementById('turno-actual').textContent = turnoGlobal.toString().padStart(3, '0');
+    document.getElementById('modulo-actual').textContent = modulo;
+
     alert(`Llamando al turno ${turnoGlobal} en el Módulo ${modulo}`);
 
-    turnoGlobal++;  // Avanzar el turno global para el siguiente módulo
+    turnoGlobal++;  // Avanza el turno global
 }
+
 
 // Función para repetir el último turno
 function repetirTurno(modulo) {
@@ -193,7 +195,11 @@ function retrocederTurno(modulo) {
 function actualizarTurno(modulo, turno = turnos[modulo]) {
     document.getElementById('turno-actual').textContent = turno.toString().padStart(3, '0');
     document.getElementById('modulo-actual').textContent = modulo;
+
+    // Actualizar el título de turno en proceso (opcional)
+    document.getElementById('turno-llamado').textContent = `Turno en Proceso: ${turno}`;
 }
+
 
 
 window.onload = function () {
