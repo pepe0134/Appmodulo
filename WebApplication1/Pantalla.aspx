@@ -9,17 +9,23 @@
     <link rel="stylesheet" href="Style.css">
 </head>
 <body>
+
+    <!-- Contenedor Principal de Pantalla -->
     <div class="pantalla">
+
+        <!-- Cabecera con Fecha y Hora -->
         <div class="cabecera">
-            <div class="fecha" id="fecha"></div>
-            <div class="hora" id="hora"></div>
+            <div id="fecha"></div>
+            <div id="hora"></div>
         </div>
 
+        <!-- Título y Subtítulo de la Entidad -->
         <div class="titulo">
-            <h1>AQUÍ INGRESAR NOMBRE DE ENTIEDAD</h1>
+            <h1>AQUÍ INGRESAR NOMBRE DE ENTIDAD</h1>
             <p>SUB INFORMACIÓN DE IDENTIDAD</p>
         </div>
 
+        <!-- Tabla para Mostrar Turnos y Módulos -->
         <div class="tabla-turnos">
             <table>
                 <thead>
@@ -30,23 +36,17 @@
                 </thead>
                 <tbody id="lista-turnos">
                     <tr>
-                        <td id="turno-pantalla">--</td>
-                        <td id="modulo-pantalla">--</td>
+                        <td>3</td>
+                        <td>2</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
+    <!-- Script para Actualizar Hora y Fecha -->
     <script>
-        function actualizarPantalla() {
-            const turno = localStorage.getItem('turno') || '--';
-            const modulo = localStorage.getItem('modulo') || '--';
-
-            document.getElementById('turno-pantalla').textContent = turno;
-            document.getElementById('modulo-pantalla').textContent = modulo;
-        }
-
+        // Actualiza la Hora y Fecha en Tiempo Real
         function actualizarHoraFecha() {
             const now = new Date();
             const fecha = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
@@ -56,8 +56,10 @@
             document.getElementById('hora').textContent = hora;
         }
 
-        setInterval(actualizarPantalla, 1000);  // Actualizar turnos cada segundo
-        setInterval(actualizarHoraFecha, 1000); // Actualizar hora en tiempo real
+        // Ejecuta la Función Cada Segundo
+        setInterval(actualizarHoraFecha, 1000);
+        actualizarHoraFecha();  // Llama a la función para mostrar hora/fecha de inmediato
     </script>
+
 </body>
 </html>
