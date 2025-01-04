@@ -72,8 +72,8 @@ window.validarLogin = function (event) {
 // PROTECCIÓN DE Admin.aspx
 // ==========================
 window.onload = function () {
-    // Evitar acceso directo a Admin.aspx sin haber iniciado sesión
-    if (window.location.pathname.includes('Admin.aspx')) {
+    // Evitar acceso directo a Admin.aspx o Menu.aspx sin haber iniciado sesión
+    if (window.location.pathname.includes('Admin.aspx') || window.location.pathname.includes('Menu.aspx')) {
         if (!sessionStorage.getItem('logueado')) {
             alert("Por favor inicia sesión para acceder.");
             window.location.href = 'Login.aspx';
@@ -85,6 +85,7 @@ window.onload = function () {
         generarBotones();
     }
 }
+
 
 // ==========================
 // GENERACIÓN DE BOTONES (MÓDULOS) aa
