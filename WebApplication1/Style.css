@@ -21,9 +21,9 @@
 
 #botones-modulo {
     display: flex;
-    flex-wrap: wrap; /* Permite que los botones se ajusten a varias líneas */
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 20px; /* Espaciado entre botones */
+    gap: 20px;
     margin-top: 30px;
 }
 
@@ -42,8 +42,6 @@
     .boton-modulo:hover {
         background-color: #45a049;
     }
-
-    
 
 /* Asegurarse de que no haya recorte */
 .botones-modulo::after {

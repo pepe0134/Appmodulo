@@ -119,3 +119,7 @@ function siguienteTurno(modulo) {
     turnoActual++;
     localStorage.setItem('turno', turnoActual);
 }
+
+window.onload = function () {
+    generarBotones();
+}
