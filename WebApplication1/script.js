@@ -57,8 +57,7 @@ window.validarLogin = function (event) {
 
         if (usuarioObj.contrasena === contrasena) {
             alert("Bienvenido " + usuario);
-            sessionStorage.setItem('logueado', true);  // Guardar sesión activa
-            window.location.href = 'Menu.aspx';  // Redirigir al menú post-login
+            window.location.href = 'Menu.aspx';  // Redirige al menú post-login
         } else {
             alert("Contraseña incorrecta.");
         }
@@ -66,6 +65,7 @@ window.validarLogin = function (event) {
         alert("Usuario no encontrado. Regístrate primero.");
     }
 }
+
 
 
 // ==========================
