@@ -1,0 +1,61 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f3f3f3;
+}
+
+.contenedor {
+    text-align: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1200px; /* Asegura que el contenedor crezca hasta 1200px */
+    margin: 0 auto;
+}
+
+.botones-modulo {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 30px;
+    height: auto; /* Permitir altura dinámica */
+    min-height: 315px; /* Altura mínima en lugar de fija */
+}
+
+
+.boton-modulo {
+    padding: 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    text-align: center;
+    min-width: 150px;
+}
+
+    .boton-modulo:nth-child(even) {
+        background-color: #2196F3; /* Colores alternos */
+    }
+
+/* Asegurarse de que no haya recorte */
+.botones-modulo::after {
+    content: "";
+    flex: auto;
+}
+
+/* Añadimos bordes temporales para pruebas */
+.botones-modulo {
+    border: 2px solid transparent;
+    height: 315px;
+}
