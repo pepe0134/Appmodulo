@@ -22,7 +22,9 @@
         </form>
 
         <p id="mensaje" style="display:none;">Configuración Guardada ✔️</p>
-        <a href="Principal.aspx">Ir a Pantalla de Turnos</a>
+        
+        <!-- Modificación del enlace para volver al menú de selección -->
+        <button onclick="volverAlMenu()">Volver al Menú de Selección</button>
     </div>
 
     <script>
@@ -45,7 +47,10 @@
             }, 2000);
         }
 
+        // Nueva función para regresar al menú de selección
+        function volverAlMenu() {
+            window.location.href = 'Menu.aspx';
+        }
     </script>
 </body>
 </html>
-

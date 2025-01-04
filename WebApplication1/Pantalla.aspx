@@ -9,21 +9,55 @@
     <link rel="stylesheet" href="Style.css">
 </head>
 <body>
-    <div class="pantalla-turno">
-        <h1 id="turno-pantalla">Turno: 000</h1>
-        <h2 id="modulo-pantalla">Módulo: --</h2>
+    <div class="pantalla">
+        <div class="cabecera">
+            <div class="fecha" id="fecha"></div>
+            <div class="hora" id="hora"></div>
+        </div>
+
+        <div class="titulo">
+            <h1>AQUÍ INGRESAR NOMBRE DE ENTIEDAD</h1>
+            <p>SUB INFORMACIÓN DE IDENTIDAD</p>
+        </div>
+
+        <div class="tabla-turnos">
+            <table>
+                <thead>
+                    <tr>
+                        <th>NÚMERO</th>
+                        <th>MÓDULO</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-turnos">
+                    <tr>
+                        <td id="turno-pantalla">--</td>
+                        <td id="modulo-pantalla">--</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
         function actualizarPantalla() {
-            const turno = localStorage.getItem('turno') || '000';
+            const turno = localStorage.getItem('turno') || '--';
             const modulo = localStorage.getItem('modulo') || '--';
 
-            document.getElementById('turno-pantalla').textContent = `Turno: ${turno}`;
-            document.getElementById('modulo-pantalla').textContent = `Módulo: ${modulo}`;
+            document.getElementById('turno-pantalla').textContent = turno;
+            document.getElementById('modulo-pantalla').textContent = modulo;
         }
 
-        setInterval(actualizarPantalla, 1000);  // Actualizar cada segundo
+        function actualizarHoraFecha() {
+            const now = new Date();
+            const fecha = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+            const hora = now.toLocaleTimeString();
+
+            document.getElementById('fecha').textContent = fecha;
+            document.getElementById('hora').textContent = hora;
+        }
+
+        setInterval(actualizarPantalla, 1000);  // Actualizar turnos cada segundo
+        setInterval(actualizarHoraFecha, 1000); // Actualizar hora en tiempo real
     </script>
 </body>
 </html>

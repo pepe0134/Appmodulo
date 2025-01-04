@@ -1,4 +1,7 @@
-﻿body {
+﻿/* ========================= */
+/* Estilo General del Cuerpo */
+/* ========================= */
+body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
@@ -8,6 +11,9 @@
     background-color: #f3f3f3;
 }
 
+/* ======================== */
+/* Contenedor Principal     */
+/* ======================== */
 .contenedor {
     text-align: center;
     background-color: white;
@@ -15,10 +21,13 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 90%;
-    max-width: 1200px; /* Asegura que el contenedor crezca hasta 1200px */
+    max-width: 1200px; /* Evita que crezca más allá de 1200px */
     margin: 0 auto;
 }
 
+/* ========================= */
+/* Sección de Botones        */
+/* ========================= */
 #botones-modulo {
     display: flex;
     flex-wrap: wrap;
@@ -27,6 +36,7 @@
     margin-top: 30px;
 }
 
+/* Botón de Módulo */
 .boton-modulo {
     background-color: #4caf50;
     color: white;
@@ -42,6 +52,8 @@
     .boton-modulo:hover {
         background-color: #45a049;
     }
+
+/* Contenedor de Botones de Modulo */
 .modulo-contenedor {
     display: flex;
     align-items: center;
@@ -50,6 +62,7 @@
     margin-bottom: 15px;
 }
 
+/* Botón de Acción (Repetir o Retroceder) */
 .boton-secundario {
     background-color: #f39c12;
     color: white;
@@ -65,13 +78,84 @@
         background-color: #e67e22;
     }
 
-/* Asegurarse de que no haya recorte */
+/* ========================= */
+/* Pantalla de Turnos        */
+/* ========================= */
+.pantalla {
+    width: 80%;
+    max-width: 1200px;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* Cabecera con Hora y Fecha */
+.cabecera {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #1f5aa6;
+    color: white;
+    font-size: 1.5rem;
+}
+
+/* Título y Subtítulo */
+.titulo h1 {
+    margin: 10px 0 0 0;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.titulo p {
+    margin: 5px 0 20px;
+    font-size: 1.2rem;
+    color: #555;
+}
+
+/* ========================= */
+/* Tabla de Turnos           */
+/* ========================= */
+.tabla-turnos {
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Cabecera de Tabla */
+th {
+    background-color: #1f5aa6;
+    color: white;
+    padding: 20px;
+    font-size: 2rem;
+}
+
+/* Celdas de la Tabla */
+td {
+    padding: 20px;
+    font-size: 2rem;
+    background-color: #f4f4f4;
+}
+
+/* Filas Alternas para Mejor Lectura */
+tr:nth-child(even) td {
+    background-color: #ebeff5;
+}
+
+/* ========================= */
+/* Extras de Organización    */
+/* ========================= */
+/* Espaciado entre botones de módulo */
 .botones-modulo::after {
     content: "";
     flex: auto;
 }
 
-/* Añadimos bordes temporales para pruebas */
+/* Bordes para pruebas (se pueden eliminar) */
 .botones-modulo {
     border: 2px solid transparent;
     height: 315px;
