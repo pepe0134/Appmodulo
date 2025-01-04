@@ -13,8 +13,9 @@
     <div class="contenedor">
         <h1>Sistema de Turnos</h1>
         <div class="pantalla">
-            <h2>TURNO: <span id="numero-turno">001</span></h2>
-            <h3>MÓDULO: <span id="numero-modulo">1</span></h3>
+            <p><strong>TURNO:</strong> <span id="turno-actual">001</span></p>
+            <p><strong>MÓDULO:</strong> <span id="modulo-actual">1</span></p>
+
             <div 
                 id="botones-modulo">
 
