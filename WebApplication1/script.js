@@ -90,7 +90,6 @@ window.onload = function () {
 function generarBotones() {
     const contenedor = document.getElementById('botones-modulo');
 
-    // Verificar que el contenedor exista antes de manipularlo
     if (!contenedor) {
         console.warn("Contenedor 'botones-modulo' no encontrado.");
         return;
@@ -99,10 +98,8 @@ function generarBotones() {
     contenedor.innerHTML = '';  // Limpiar botones previos
 
     let modulosDisponibles = localStorage.getItem('modulos') || 5;  // Por defecto 5 módulos
-
     console.log("Módulos cargados desde LocalStorage:", modulosDisponibles);
 
-    // Generar botones dinámicamente
     for (let i = 1; i <= modulosDisponibles; i++) {
         const boton = document.createElement('button');
         boton.textContent = `Módulo ${i}`;
@@ -110,7 +107,8 @@ function generarBotones() {
         boton.setAttribute('onclick', `siguienteTurno(${i})`);
         contenedor.appendChild(boton);
     }
-}
+}ssssssss
+
 
 // ==========================
 // ASIGNACIÓN DE TURNOS
