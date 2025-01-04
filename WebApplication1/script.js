@@ -85,7 +85,7 @@ window.onload = function () {
 }
 
 // ==========================
-// GENERACIÓN DE BOTONES (MÓDULOS)
+// GENERACIÓN DE BOTONES (MÓDULOS) aa
 // ==========================
 let turnos = {};  // Almacenará el turno actual por módulo
 let historialTurnos = {};  // Almacenará el historial de turnos de cada módulo
@@ -110,6 +110,7 @@ function generarBotones() {
         botonModulo.textContent = `Módulo ${i}`;
         botonModulo.classList.add('boton-modulo');
         botonModulo.addEventListener('click', () => siguienteTurno(i));
+
 
         // Botón de repetir turno
         const botonRepetir = document.createElement('button');
