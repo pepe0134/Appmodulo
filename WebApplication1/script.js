@@ -108,7 +108,7 @@ function generarBotones() {
         contenedor.appendChild(boton);
     }
 }
-
+//prueba de cambios
 
 // ==========================
 // ASIGNACIÓN DE TURNOS
