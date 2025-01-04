@@ -150,16 +150,25 @@ function siguienteTurno(modulo) {
 }
 
 // Función para avanzar al siguiente turno
+
+let turnoGlobal = 1;  // Turno general para todos los módulos
+
 function siguienteTurno(modulo) {
     if (!turnos[modulo]) {
-        turnos[modulo] = 1;
+        turnos[modulo] = turnoGlobal;  // Asignar el turno global al módulo
     }
 
-    turnos[modulo]++;  // Avanza el turno
-    historialTurnos[modulo].push(turnos[modulo]);  // Guarda el turno en el historial
-    console.log(`Siguiente turno para módulo ${modulo}: ${turnos[modulo]}`);
-    actualizarTurno(modulo);
+    historialTurnos[modulo].push(turnoGlobal);  // Guardar en historial
+    actualizarTurno(modulo, turnoGlobal);
+
+    // Mostrar el número de turno llamado
+    alert(`Llamando al turno ${turnoGlobal} en el Módulo ${modulo}`);
+
+    turnoGlobal++;  // Avanzar el turno global para el siguiente módulo
 }
+
+
+
 
 
 // Función para repetir el último turno
@@ -173,7 +182,6 @@ function repetirTurno(modulo) {
     }
 }
 
-// Función para retroceder al turno anterior
 function retrocederTurno(modulo) {
     if (historialTurnos[modulo].length > 1) {
         historialTurnos[modulo].pop();  // Elimina el último turno
@@ -185,6 +193,7 @@ function retrocederTurno(modulo) {
         alert(`No es posible retroceder en módulo ${modulo}`);
     }
 }
+
 
 // Actualiza el turno mostrado
 function actualizarTurno(modulo, turno = turnos[modulo]) {
