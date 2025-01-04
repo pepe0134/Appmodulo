@@ -57,7 +57,7 @@ window.validarLogin = function (event) {
         if (usuarioObj.contrasena === contrasena) {
             alert("Bienvenido " + usuario);
             sessionStorage.setItem('logueado', true);  // Guardar sesión activa
-            window.location.href = 'Admin.aspx';  // Redirigir al panel de administración
+            window.location.href = 'Menu.aspx';  // Redirigir al panel de Menu para dos pantallas
         } else {
             alert("Contraseña incorrecta.");
         }
@@ -158,14 +158,17 @@ function siguienteTurno(modulo) {
     turnos[modulo] = turnoGlobal;  // Sincroniza turno global con el módulo
     historialTurnos[modulo].push(turnoGlobal);  // Guarda en historial
 
+    // Guardar en localStorage para la pantalla de turnos
+    localStorage.setItem('turno', turnoGlobal);
+    localStorage.setItem('modulo', modulo);
+
     // Forzar actualización visual
     document.getElementById('turno-actual').textContent = turnoGlobal.toString().padStart(3, '0');
     document.getElementById('modulo-actual').textContent = modulo;
 
-    alert(`Llamando al turno ${turnoGlobal} en el Módulo ${modulo}`);
-
     turnoGlobal++;  // Avanza el turno global
 }
+
 
 
 // Función para repetir el último turno

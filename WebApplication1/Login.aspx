@@ -18,7 +18,6 @@
 
             <label for="contrasena">Contraseña:</label>
             <input type="password" id="contrasena" required>
-
             <button type="submit">Ingresar</button>
         </form>
 
