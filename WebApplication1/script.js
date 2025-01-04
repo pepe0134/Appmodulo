@@ -154,11 +154,9 @@ function siguienteTurno(modulo) {
 let turnoGlobal = 1;  // Turno general para todos los módulos
 
 function siguienteTurno(modulo) {
-    if (!turnos[modulo]) {
-        turnos[modulo] = turnoGlobal;  // Asignar el turno global al módulo
-    }
+    turnos[modulo] = turnoGlobal;  // Asegura que el módulo reciba el turno global
 
-    historialTurnos[modulo].push(turnoGlobal);  // Guardar en historial
+    historialTurnos[modulo].push(turnoGlobal);  // Guarda en historial
     actualizarTurno(modulo, turnoGlobal);
 
     // Mostrar el número de turno llamado
@@ -166,10 +164,6 @@ function siguienteTurno(modulo) {
 
     turnoGlobal++;  // Avanzar el turno global para el siguiente módulo
 }
-
-
-
-
 
 // Función para repetir el último turno
 function repetirTurno(modulo) {
