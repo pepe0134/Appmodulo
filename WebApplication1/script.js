@@ -140,7 +140,7 @@ function generarBotones() {
 //prueba de cambios
 
 // ==========================
-// ASIGNACIÓN DE TURNOS
+// ASIGNACIÓN DE TURNOS a
 // ==========================
 function siguienteTurno(modulo) {
     let turnoActual = localStorage.getItem('turno') || 1;
@@ -151,10 +151,16 @@ function siguienteTurno(modulo) {
 
 // Función para avanzar al siguiente turno
 function siguienteTurno(modulo) {
-    turnos[modulo]++;
-    historialTurnos[modulo].push(turnos[modulo]);
+    if (!turnos[modulo]) {
+        turnos[modulo] = 1;
+    }
+
+    turnos[modulo]++;  // Avanza el turno
+    historialTurnos[modulo].push(turnos[modulo]);  // Guarda el turno en el historial
+    console.log(`Siguiente turno para módulo ${modulo}: ${turnos[modulo]}`);
     actualizarTurno(modulo);
 }
+
 
 // Función para repetir el último turno
 function repetirTurno(modulo) {
