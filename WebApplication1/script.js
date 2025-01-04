@@ -107,7 +107,7 @@ function generarBotones() {
         boton.setAttribute('onclick', `siguienteTurno(${i})`);
         contenedor.appendChild(boton);
     }
-}ssssssss
+}
 
 
 // ==========================
