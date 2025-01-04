@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Turnos</title>
-    <div id="botones-modulo"></div>
     <link rel="stylesheet" href="Style.css">
 </head>
 <body>
@@ -16,6 +15,11 @@
         <div class="pantalla">
             <h2>TURNO: <span id="numero-turno">001</span></h2>
             <h3>MÓDULO: <span id="numero-modulo">1</span></h3>
+            <div 
+                id="botones-modulo">
+
+            </div>
+
         </div>
 
         <div class="botones-modulo" id="botones-modulo">
