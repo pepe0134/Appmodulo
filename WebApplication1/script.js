@@ -72,19 +72,28 @@ window.validarLogin = function (event) {
 // PROTECCIÓN DE Admin.aspx
 // ==========================
 window.onload = function () {
-    // Evitar acceso directo a Admin.aspx o Menu.aspx sin haber iniciado sesión
-    if (window.location.pathname.includes('Admin.aspx') || window.location.pathname.includes('Menu.aspx')) {
+    // Proteger acceso directo a Admin.aspx sin sesión activa
+    if (window.location.pathname.includes('Admin.aspx')) {
         if (!sessionStorage.getItem('logueado')) {
             alert("Por favor inicia sesión para acceder.");
             window.location.href = 'Login.aspx';
         }
     }
 
-    // Generar botones en la página principal (si aplica)
+    // Si la sesión es válida y estamos en Menu.aspx, no hacer nada
+    if (window.location.pathname.includes('Menu.aspx')) {
+        if (!sessionStorage.getItem('logueado')) {
+            alert("Por favor inicia sesión para acceder.");
+            window.location.href = 'Login.aspx';
+        }
+    }
+
+    // Generar botones en Principal.aspx
     if (window.location.pathname.includes('Principal.aspx')) {
         generarBotones();
     }
 }
+16
 
 
 // ==========================
