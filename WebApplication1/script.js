@@ -109,7 +109,7 @@ function generarBotones() {
         const botonModulo = document.createElement('button');
         botonModulo.textContent = `Módulo ${i}`;
         botonModulo.classList.add('boton-modulo');
-        botonModulo.setAttribute('onclick', `siguienteTurno(${i})`);
+        botonModulo.addEventListener('click', () => siguienteTurno(i));
 
         // Botón de repetir turno
         const botonRepetir = document.createElement('button');
