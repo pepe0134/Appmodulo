@@ -15,7 +15,7 @@
             <button onclick="window.location.href='Principal.aspx'">Solo Módulos</button>
             <button onclick="window.open('pantalla.aspx', '_blank')">Solo Pantalla</button>
         </div>
-        <button onclick="guardarSesion()">Solo Módulos</button>
+        <button onclick="guardarSesion()">Configuración Modulos</button>
 
 <script>
     function guardarSesion() {
