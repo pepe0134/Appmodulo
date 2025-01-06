@@ -7,59 +7,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pantalla de Turnos</title>
     <link rel="stylesheet" href="Style.css">
+    <style type="text/css">
+        .auto-style1 {
+            width: 763px;
+        }
+        .auto-style2 {
+            width: 98%;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Contenedor Principal de Pantalla -->
     <div class="pantalla">
-
-        <!-- Cabecera con Fecha y Hora -->
+        <!-- Cabecera con Logo y Hora -->
         <div class="cabecera">
-            <div id="fecha"></div>
-            <div id="hora"></div>
+            <div class="logo">
+                &nbsp;<img src="logo.png" alt="LOGO" style="height: 101px; width: 106px" /></div>
+            <div class="fecha-hora">
+                <div id="fecha"></div>
+                <div id="hora"></div>
+            </div>
         </div>
 
-        <!-- Título y Subtítulo de la Entidad -->
-        <div class="titulo">
-            <h1>AQUÍ INGRESAR NOMBRE DE ENTIDAD</h1>
-            <p>SUB INFORMACIÓN DE IDENTIDAD</p>
-        </div>
-
-        <!-- Tabla para Mostrar Turnos y Módulos -->
+        <!-- Tabla con los Últimos Turnos Llamados -->
         <div class="tabla-turnos">
-            <table>
+            <table class="auto-style2">
                 <thead>
                     <tr>
-                        <th>NÚMERO</th>
-                        <th>MÓDULO</th>
+                        <th class="auto-style1">MÓDULO</th>
+                        <th>TURNO</th>
                     </tr>
                 </thead>
                 <tbody id="lista-turnos">
-                    <tr>
-                        <td>3</td>
-                        <td>2</td>
-                    </tr>
+                    <!-- Los turnos se llenarán dinámicamente -->
                 </tbody>
             </table>
         </div>
+
+        <!-- Turno en Pantalla Grande (Actual) -->
+        <div class="turno-actual">
+            <h2>TURNO</h2>
+            <div class="turno-destacado">
+                <span id="turno-llamado">EM-010</span>
+                <p>MÓDULO <span id="modulo-actual">2</span></p>
+            </div>
+        </div>
+
+        <!-- Mensaje de Bienvenida -->
+        <div class="mensaje-bienvenida">
+            Bienvenidos, nuestro horario de atención es de...
+        </div>
+
     </div>
 
-    <!-- Script para Actualizar Hora y Fecha -->
-    <script>
-        // Actualiza la Hora y Fecha en Tiempo Real
-        function actualizarHoraFecha() {
-            const now = new Date();
-            const fecha = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
-            const hora = now.toLocaleTimeString();
+    <!-- Script para Actualizar la Hora y la Lista de Turnos -->
+  <script>
+      if (!localStorage.getItem('rangoMaximo')) {
+          localStorage.setItem('rangoMaximo', 99);  // Por defecto 99
+      }
 
-            document.getElementById('fecha').textContent = fecha;
-            document.getElementById('hora').textContent = hora;
-        }
+      function actualizarHoraFecha() {
+          const now = new Date();
+          const fecha = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+          const hora = now.toLocaleTimeString();
 
-        // Ejecuta la Función Cada Segundo
-        setInterval(actualizarHoraFecha, 1000);
-        actualizarHoraFecha();  // Llama a la función para mostrar hora/fecha de inmediato
-    </script>
+          document.getElementById('fecha').textContent = fecha;
+          document.getElementById('hora').textContent = hora;
+      }
+
+      // Actualiza Turnos en Pantalla desde LocalStorage
+      function actualizarTurnoDinamico() {
+          const turno = localStorage.getItem('turno') || '---';
+          const modulo = localStorage.getItem('modulo') || '--';
+
+          document.getElementById('turno-llamado').textContent = turno;
+          document.getElementById('modulo-actual').textContent = modulo;
+
+          // Obtener lista de turnos previos
+          const turnosPrevios = JSON.parse(localStorage.getItem('turnosPrevios')) || [];
+          let tablaHtml = '';
+
+          turnosPrevios.slice(-6).reverse().forEach(item => {
+              tablaHtml += `
+                <tr>
+                    <td>${item.modulo}</td>
+                    <td>${item.turno}</td>
+                </tr>
+            `;
+          });
+
+          document.getElementById('lista-turnos').innerHTML = tablaHtml;
+      }
+
+      // Escuchar Cambios en LocalStorage (cuando se llama desde otra ventana)
+      window.addEventListener('actualizarPantalla', () => {
+          actualizarTurnoDinamico();
+      });
+
+      // Actualización manual de la tabla de turnos
+      function actualizarTurnoDinamico() {
+          const turno = localStorage.getItem('turno') || '---';
+          const modulo = localStorage.getItem('modulo') || '--';
+
+          document.getElementById('turno-llamado').textContent = turno;
+          document.getElementById('modulo-actual').textContent = modulo;
+
+          const turnosPrevios = JSON.parse(localStorage.getItem('turnosPrevios')) || [];
+          let tablaHtml = '';
+
+          turnosPrevios.slice(-6).reverse().forEach(item => {
+              tablaHtml += `
+            <tr>
+                <td>${item.modulo}</td>
+                <td>${item.turno}</td>
+            </tr>
+        `;
+          });
+
+          document.getElementById('lista-turnos').innerHTML = tablaHtml;
+      }
+
+  </script>
+
+
+
+
 
 </body>
 </html>

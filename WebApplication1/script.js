@@ -153,35 +153,41 @@ function generarBotones() {
 //prueba de cambios
 
 // ==========================
-// ASIGNACIÓN DE TURNOS a
+// ASIGNACIÓN DE TURNOS
 // ==========================
-function siguienteTurno(modulo) {
-    let turnoActual = localStorage.getItem('turno') || 1;
-    alert(`Turno ${turnoActual} asignado al módulo ${modulo}`);
-    turnoActual++;
-    localStorage.setItem('turno', turnoActual);
-}
+
+// Turno general para sincronizar módulos
+let turnoGlobal = 1;
 
 // Función para avanzar al siguiente turno
-
-let turnoGlobal = 1;  // Turno general para todos los módulos
-
 function siguienteTurno(modulo) {
-    turnos[modulo] = turnoGlobal;  // Sincroniza turno global con el módulo
-    historialTurnos[modulo].push(turnoGlobal);  // Guarda en historial
+    turnos[modulo] = turnoGlobal;
+    historialTurnos[modulo].push(turnoGlobal);
 
-    // Guardar en localStorage para la pantalla de turnos
+    let turnosPrevios = JSON.parse(localStorage.getItem('turnosPrevios')) || [];
+    turnosPrevios.push({ turno: turnoGlobal, modulo: modulo });
+
+    if (turnosPrevios.length > 6) {
+        turnosPrevios = turnosPrevios.slice(-6);
+    }
+
+    localStorage.setItem('turnosPrevios', JSON.stringify(turnosPrevios));
     localStorage.setItem('turno', turnoGlobal);
     localStorage.setItem('modulo', modulo);
 
-    // Forzar actualización visual
     document.getElementById('turno-actual').textContent = turnoGlobal.toString().padStart(3, '0');
     document.getElementById('modulo-actual').textContent = modulo;
 
-    turnoGlobal++;  // Avanza el turno global
+    turnoGlobal++;
+
+    // Forzar actualización manual de Pantalla.aspx
+    window.dispatchEvent(new Event('actualizarPantalla'));
 }
 
 
+// ==========================
+// REPETIR Y RETROCEDER TURNOS
+// ==========================
 
 // Función para repetir el último turno
 function repetirTurno(modulo) {
@@ -194,6 +200,7 @@ function repetirTurno(modulo) {
     }
 }
 
+// Retrocede al turno anterior
 function retrocederTurno(modulo) {
     if (historialTurnos[modulo].length > 1) {
         historialTurnos[modulo].pop();  // Elimina el último turno
@@ -206,6 +213,9 @@ function retrocederTurno(modulo) {
     }
 }
 
+// ==========================
+// ACTUALIZACIÓN VISUAL
+// ==========================
 
 // Actualiza el turno mostrado
 function actualizarTurno(modulo, turno = turnos[modulo]) {
@@ -216,8 +226,9 @@ function actualizarTurno(modulo, turno = turnos[modulo]) {
     document.getElementById('turno-llamado').textContent = `Turno en Proceso: ${turno}`;
 }
 
-
-
+// ==========================
+// INICIALIZACIÓN DE BOTONES
+// ==========================
 window.onload = function () {
     generarBotones();
 }
