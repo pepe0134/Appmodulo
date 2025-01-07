@@ -23,25 +23,60 @@
         </div>
     </div>
 
-    <!-- Generar botones y llamar turnos -->
-    <script>
-        // Generar botones para módulos dinámicamente
-        document.addEventListener('DOMContentLoaded', function() {
-            const contenedorBotones = document.getElementById('botones-modulo');
-            
-            // Crear botones para 6 módulos (puedes cambiar la cantidad)
-            for (let i = 1; i <= 6; i++) {
-                const boton = document.createElement('button');
-                boton.textContent = 'Llamar Módulo ' + i;
-                boton.onclick = function() {
-                    siguienteTurno(i);  // Llama al turno para el módulo seleccionado
-                };
-                contenedorBotones.appendChild(boton);
-            }
-        });
-    </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const contenedorBotones = document.getElementById('botones-modulo');
 
-    <!-- Importar script principal -->
-    <script src="script.js"></script>
+        for (let i = 1; i <= 11; i++) {  // 11 módulos de ejemplo
+            const divModulo = document.createElement('div');
+            divModulo.classList.add('modulo-contenedor');
+
+            const boton = document.createElement('button');
+            boton.textContent = 'Módulo ' + i;
+            boton.classList.add('boton-modulo');
+            boton.onclick = function () {
+                siguienteTurno(i);
+                enviarEventoActualizacion();
+            };
+
+            const repetir = document.createElement('button');
+            repetir.textContent = 'Repetir';
+            repetir.classList.add('boton-secundario');
+            repetir.onclick = function () {
+                repetirTurno();
+                enviarEventoActualizacion();
+            };
+
+            const retroceder = document.createElement('button');
+            retroceder.textContent = 'Retroceder';
+            retroceder.classList.add('boton-secundario');
+            retroceder.onclick = function () {
+                retrocederTurno();
+                enviarEventoActualizacion();
+            };
+
+            divModulo.appendChild(boton);
+            divModulo.appendChild(repetir);
+            divModulo.appendChild(retroceder);
+
+            contenedorBotones.appendChild(divModulo);
+        }
+
+        // Se ejecuta constantemente para evitar recargar con F5
+        setInterval(() => {
+            if (localStorage.getItem('actualizacion')) {
+                window.dispatchEvent(new Event('actualizarPantalla'));
+            }
+        }, 500);
+    });
+
+    function enviarEventoActualizacion() {
+        localStorage.setItem('actualizacion', Date.now());  // Marca de tiempo
+        window.dispatchEvent(new Event('actualizarPantalla'));
+    }
+</script>
+
+<script src="script.js"></script>
 </body>
 </html>
+

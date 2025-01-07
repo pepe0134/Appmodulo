@@ -161,12 +161,25 @@ let turnoGlobal = 1;
 
 // Función para avanzar al siguiente turno
 function siguienteTurno(modulo) {
+    let turnosPrevios = JSON.parse(localStorage.getItem('turnosPrevios')) || [];
+
+    // Obtener el rango máximo configurado (por defecto 99)
+    let rangoMaximo = parseInt(localStorage.getItem('turnos') || '99');
+
+    // Incrementar el turno global
+    turnoGlobal++;
+
+    // Si se excede el rango, volver a 1
+    if (turnoGlobal > rangoMaximo) {
+        turnoGlobal = 1;
+    }
+
     turnos[modulo] = turnoGlobal;
     historialTurnos[modulo].push(turnoGlobal);
 
-    let turnosPrevios = JSON.parse(localStorage.getItem('turnosPrevios')) || [];
     turnosPrevios.push({ turno: turnoGlobal, modulo: modulo });
 
+    // Mantener solo los últimos 6 turnos en la lista
     if (turnosPrevios.length > 6) {
         turnosPrevios = turnosPrevios.slice(-6);
     }
@@ -178,40 +191,92 @@ function siguienteTurno(modulo) {
     document.getElementById('turno-actual').textContent = turnoGlobal.toString().padStart(3, '0');
     document.getElementById('modulo-actual').textContent = modulo;
 
-    turnoGlobal++;
-
     // Forzar actualización manual de Pantalla.aspx
     window.dispatchEvent(new Event('actualizarPantalla'));
 }
+
 
 
 // ==========================
 // REPETIR Y RETROCEDER TURNOS
 // ==========================
 
-// Función para repetir el último turno
+
+
+// Repetir Turno desde Principal.aspx
 function repetirTurno(modulo) {
     if (historialTurnos[modulo].length > 0) {
         let ultimoTurno = historialTurnos[modulo][historialTurnos[modulo].length - 1];
-        alert(`Repetir turno ${ultimoTurno} para módulo ${modulo}`);
+        console.log(`Repetir turno ${ultimoTurno} para módulo ${modulo}`);
+
+        // Actualizar turno mostrado
         actualizarTurno(modulo, ultimoTurno);
+
+        // Guardar en localStorage
+        localStorage.setItem('turno', ultimoTurno);
+        localStorage.setItem('modulo', modulo);
+
+        let turnosPrevios = JSON.parse(localStorage.getItem('turnosPrevios')) || [];
+        turnosPrevios.push({ turno: ultimoTurno, modulo: modulo });
+
+        if (turnosPrevios.length > 6) {
+            turnosPrevios = turnosPrevios.slice(-6);
+        }
+
+        localStorage.setItem('turnosPrevios', JSON.stringify(turnosPrevios));
+        localStorage.setItem('actualizacionPantalla', Date.now());
+
+        enviarMensajePantalla();  // Notificar a Pantalla.aspx
     } else {
-        alert(`No hay turnos previos para repetir en módulo ${modulo}`);
+        console.log(`No hay turnos previos para repetir en módulo ${modulo}`);
     }
 }
 
-// Retrocede al turno anterior
+// Retroceder Turno desde Principal.aspx
 function retrocederTurno(modulo) {
     if (historialTurnos[modulo].length > 1) {
-        historialTurnos[modulo].pop();  // Elimina el último turno
+        historialTurnos[modulo].pop();  // Eliminar último turno
         let turnoAnterior = historialTurnos[modulo][historialTurnos[modulo].length - 1];
         turnos[modulo] = turnoAnterior;
-        alert(`Retroceder al turno ${turnoAnterior} para módulo ${modulo}`);
+
+        console.log(`Retroceder al turno ${turnoAnterior} para módulo ${modulo}`);
+
+        // Actualizar turno mostrado
         actualizarTurno(modulo, turnoAnterior);
+
+        // Guardar en localStorage
+        localStorage.setItem('turno', turnoAnterior);
+        localStorage.setItem('modulo', modulo);
+
+        let turnosPrevios = JSON.parse(localStorage.getItem('turnosPrevios')) || [];
+        turnosPrevios.push({ turno: turnoAnterior, modulo: modulo });
+
+        if (turnosPrevios.length > 6) {
+            turnosPrevios = turnosPrevios.slice(-6);
+        }
+
+        localStorage.setItem('turnosPrevios', JSON.stringify(turnosPrevios));
+        localStorage.setItem('actualizacionPantalla', Date.now());
+
+        enviarMensajePantalla();  // Notificar a Pantalla.aspx
     } else {
-        alert(`No es posible retroceder en módulo ${modulo}`);
+        console.log(`No es posible retroceder en módulo ${modulo}`);
     }
 }
+
+
+// Función para enviar mensaje a Pantalla.aspx
+function enviarMensajePantalla() {
+    const pantalla = window.open('', 'pantallaTurnos');  // Nombre de la ventana o iframe
+    if (pantalla) {
+        pantalla.postMessage('actualizarPantalla', '*');  // Enviar mensaje para actualizar
+    } else {
+        console.log('Pantalla no encontrada.');
+    }
+}
+
+
+
 
 // ==========================
 // ACTUALIZACIÓN VISUAL

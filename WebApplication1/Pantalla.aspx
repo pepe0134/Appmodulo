@@ -7,131 +7,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pantalla de Turnos</title>
     <link rel="stylesheet" href="Style.css">
-    <style type="text/css">
-        .auto-style1 {
-            width: 763px;
+    <style>
+        .turno-destacado {
+            font-size: 8rem;
+            color: #1f5aa6;
+            font-weight: bold;
         }
-        .auto-style2 {
-            width: 98%;
+        .modulo-destacado {
+            font-size: 5rem;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .tabla-turnos th, .tabla-turnos td {
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        .tabla-turnos th {
+            background-color: #e74c3c;
+            color: white;
         }
     </style>
 </head>
 <body>
 
     <div class="pantalla">
-        <!-- Cabecera con Logo y Hora -->
         <div class="cabecera">
             <div class="logo">
-                &nbsp;<img src="logo.png" alt="LOGO" style="height: 101px; width: 106px" /></div>
+                &nbsp;</div>
             <div class="fecha-hora">
-                <div id="fecha"></div>
+                <div id="fecha">
+                <img src="logo.png" alt="LOGO" style="height: 101px; width: 106px" /></div>
                 <div id="hora"></div>
             </div>
         </div>
 
-        <!-- Tabla con los Últimos Turnos Llamados -->
+        <div class="turno-actual">
+            <h2>TURNO</h2>
+            <div class="turno-destacado" id="turno-llamado">--- </div>
+            <p>MÓDULO <span class="modulo-destacado" id="modulo-actual">--</span></p>
+        </div>
+
         <div class="tabla-turnos">
-            <table class="auto-style2">
+            <h2>ÚLTIMOS NÚMEROS LLAMADOS</h2>
+            <table>
                 <thead>
                     <tr>
-                        <th class="auto-style1">MÓDULO</th>
                         <th>TURNO</th>
+                        <th>MÓDULO</th>
                     </tr>
                 </thead>
                 <tbody id="lista-turnos">
-                    <!-- Los turnos se llenarán dinámicamente -->
                 </tbody>
             </table>
         </div>
-
-        <!-- Turno en Pantalla Grande (Actual) -->
-        <div class="turno-actual">
-            <h2>TURNO</h2>
-            <div class="turno-destacado">
-                <span id="turno-llamado">EM-010</span>
-                <p>MÓDULO <span id="modulo-actual">2</span></p>
-            </div>
-        </div>
-
-        <!-- Mensaje de Bienvenida -->
-        <div class="mensaje-bienvenida">
-            Bienvenidos, nuestro horario de atención es de...
-        </div>
-
     </div>
 
-    <!-- Script para Actualizar la Hora y la Lista de Turnos -->
-  <script>
-      if (!localStorage.getItem('rangoMaximo')) {
-          localStorage.setItem('rangoMaximo', 99);  // Por defecto 99
-      }
+<script>
+    function actualizarPantalla() {
+        const turno = localStorage.getItem('turno') || '---';
+        const modulo = localStorage.getItem('modulo') || '--';
 
-      function actualizarHoraFecha() {
-          const now = new Date();
-          const fecha = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
-          const hora = now.toLocaleTimeString();
+        document.getElementById('turno-llamado').textContent = turno.padStart(3, '0');
+        document.getElementById('modulo-actual').textContent = modulo;
 
-          document.getElementById('fecha').textContent = fecha;
-          document.getElementById('hora').textContent = hora;
-      }
+        const turnosPrevios = JSON.parse(localStorage.getItem('turnosPrevios')) || [];
+        let tablaHtml = '';
 
-      // Actualiza Turnos en Pantalla desde LocalStorage
-      function actualizarTurnoDinamico() {
-          const turno = localStorage.getItem('turno') || '---';
-          const modulo = localStorage.getItem('modulo') || '--';
-
-          document.getElementById('turno-llamado').textContent = turno;
-          document.getElementById('modulo-actual').textContent = modulo;
-
-          // Obtener lista de turnos previos
-          const turnosPrevios = JSON.parse(localStorage.getItem('turnosPrevios')) || [];
-          let tablaHtml = '';
-
-          turnosPrevios.slice(-6).reverse().forEach(item => {
-              tablaHtml += `
-                <tr>
-                    <td>${item.modulo}</td>
-                    <td>${item.turno}</td>
-                </tr>
-            `;
-          });
-
-          document.getElementById('lista-turnos').innerHTML = tablaHtml;
-      }
-
-      // Escuchar Cambios en LocalStorage (cuando se llama desde otra ventana)
-      window.addEventListener('actualizarPantalla', () => {
-          actualizarTurnoDinamico();
-      });
-
-      // Actualización manual de la tabla de turnos
-      function actualizarTurnoDinamico() {
-          const turno = localStorage.getItem('turno') || '---';
-          const modulo = localStorage.getItem('modulo') || '--';
-
-          document.getElementById('turno-llamado').textContent = turno;
-          document.getElementById('modulo-actual').textContent = modulo;
-
-          const turnosPrevios = JSON.parse(localStorage.getItem('turnosPrevios')) || [];
-          let tablaHtml = '';
-
-          turnosPrevios.slice(-6).reverse().forEach(item => {
-              tablaHtml += `
+        turnosPrevios.slice(-4).reverse().forEach(item => {
+            tablaHtml += `
             <tr>
-                <td>${item.modulo}</td>
                 <td>${item.turno}</td>
-            </tr>
-        `;
-          });
+                <td>${item.modulo}</td>
+            </tr>`;
+        });
 
-          document.getElementById('lista-turnos').innerHTML = tablaHtml;
-      }
+        document.getElementById('lista-turnos').innerHTML = tablaHtml;
+    }
 
-  </script>
+    window.addEventListener('actualizarPantalla', () => {
+        console.log("Evento recibido en Pantalla.aspx");
+        actualizarPantalla();
+    });
+
+ 
+    actualizarPantalla();
+
+    // Actualización completa cada 500 ms
+    setInterval(() => {
+        actualizarPantalla();
+    }, 500);
+
+    // Escuchar cambios en localStorage para actualizar la pantalla
+    window.addEventListener('storage', (event) => {
+        if (event.key === 'actualizacionPantalla') {
+            console.log("Pantalla.aspx detectó un cambio. Actualizando...");
+            actualizarPantalla();
+        }
+    });
+
+    // Escuchar mensajes desde Principal.aspx
+    window.addEventListener('message', (event) => {
+        if (event.data === 'actualizarPantalla') {
+            console.log("Mensaje recibido en Pantalla.aspx. Actualizando...");
+            actualizarPantalla();
+        }
+    });
 
 
-
-
+</script>
 
 </body>
 </html>
+
